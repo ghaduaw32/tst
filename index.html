@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Automatic Cek IP Address</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Automatic Cek IP Address</h1>
+        <p>Tools Automatic Cek IP Address</p>
+    </div>
+    <div class="border">
+        <p id="ip1"></p>
+    </div>
+    <div class="container">
+        <div class="text_container">
+            <p>
+                <span class="label">IPv4 Address : </span><span id="ip2"></span>
+                <br>
+                <span class="label">IPv6 Address : </span><span id="ipv6"></span>
+                <br>
+                <span class="label">ISP : </span><span id="isp"></span>
+                <br>
+                <span class="label">Country : </span><span id="country"></span>
+                <br>
+                <span class="label">City : </span><span id="city"></span>
+                <br>
+                <span class="label">Region : </span><span id="region"></span>
+                <br>
+                <span class="label">Location : </span><span id="loc"></span>
+                <br>
+                <span class="label">Organization : </span><span id="org"></span>
+                <br>
+                <span class="label">Timezone : </span><span id="timezone"></span>
+                <br>
+            </p>
+        </div>
+    
+        <iframe 
+        id="googleMap"
+        width="400"
+        height="400" 
+        frameborder="0" style="border: 0;"
+        allowfullscreen>
+        </iframe>
+    </div>
+    <footer class="footer">
+        <div class="text_descripsi">
+        <h1>Automatic Cek IP Address</h1>
+        <p>Web Automatic Cek IP Address adalah alat untuk mengecek otomatis IP address untuk melihat data seperti lokasi geografis, layanan internet, zona waktu, dan informasi lainnya</p>
+        </div>
+        <h5>Cara Penggunaan</h5>
+        <ul>
+            <li>Cukup Buka website, dan Website akan otomatis mendeteksi alamat IP Anda</li>
+        </ul>
+    </footer>
+    <script>
+        function updateInfo(ip){
+            var apiUrl = 'https://ipapi.co/' + ip + '/json';
+
+            $.getJSON(apiUrl, function(data){
+                console.log(data);
+                $('#ip1').text(data.ip);
+                $('#ip2').text(data.ip);
+                $('#ipv6').text(data.ip_v6);
+                $('#isp').text(data.org);
+                $('#country').text(data.country_name);
+                $('#city').text(data.region);
+                $('#region').text(data.region_code);
+                $('#loc').text(data.latitude + ',' + data.longitude);
+                $('#org').text(data.org);
+                $('#timezone').text(data.timezone);
+
+                var iframe = document.getElementById('googleMap');
+                iframe.src = "https://maps.google.com/maps?q=" + data.latitude + "," + data.longitude + "&output=embed";
+            });
+        }
+
+        $(document).ready(function(){
+            $.getJSON('https://api64.ipify.org?format=json',function(data){
+                var ip = data.ip;
+                updateInfo(ip);
+            });
+        });
+    </script>
+</body>
+</html>
