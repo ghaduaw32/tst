@@ -36,13 +36,16 @@
                 <br>
                 <span class="label">Timezone : </span><span id="timezone"></span>
                 <br>
+                <span class="label">ASN : </span><span id="asn"></span>
+                <br>
+                <span class="label">Country call code : </span><span id="codecaling"></span>
             </p>
         </div>
     
         <iframe 
         id="googleMap"
         width="400"
-        height="400" 
+        height="500" 
         frameborder="0" style="border: 0;"
         allowfullscreen>
         </iframe>
@@ -65,7 +68,7 @@
                 console.log(data);
                 $('#ip1').text(data.ip);
                 $('#ip2').text(data.ip);
-                $('#ipv6').text(data.ip_v6);
+                $('#ipv6').text(data.ip_v6 || "not Available");
                 $('#isp').text(data.org);
                 $('#country').text(data.country_name);
                 $('#city').text(data.region);
@@ -73,6 +76,8 @@
                 $('#loc').text(data.latitude + ',' + data.longitude);
                 $('#org').text(data.org);
                 $('#timezone').text(data.timezone);
+                $('#asn').text(data.asn || "not Available");
+                $('#codecaling').text(data.country_calling_code);
 
                 var iframe = document.getElementById('googleMap');
                 iframe.src = "https://maps.google.com/maps?q=" + data.latitude + "," + data.longitude + "&output=embed";
@@ -80,7 +85,7 @@
         }
 
         $(document).ready(function(){
-            $.getJSON('https://api64.ipify.org?format=json',function(data){
+            $.getJSON('https://ipapi.co/json/',function(data){
                 var ip = data.ip;
                 updateInfo(ip);
             });
